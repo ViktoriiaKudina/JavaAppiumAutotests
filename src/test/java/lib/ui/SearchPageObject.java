@@ -1,5 +1,6 @@
 package lib.ui;
 
+import lib.Platform;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
 abstract public class SearchPageObject extends MainPageObject {
@@ -9,6 +10,7 @@ abstract public class SearchPageObject extends MainPageObject {
             SEARCH_INPUT,
             SEARCH_CANCEL_BUTTON,
             SEARCH_RESULT_BY_SUBSTRING_TPL,
+            SEARCH_RESULT_BY_TITLE,
             SEARCH_RESULT_ELEMENT,
             SEARCH_RESULT_ELEMENT_BY_ID,
             SEARCH_EMPTY_RESULT_ELEMENT,
@@ -28,6 +30,9 @@ abstract public class SearchPageObject extends MainPageObject {
     }
 
     private static String getSearchResultByTitle(String title){
+        if(Platform.getInstance().isMW()){
+            return SEARCH_RESULT_BY_TITLE.replace("{ARTICLE_TITLE}",title);
+        }else
         return SEARCH_RESULT_BY_TITLE_SUBSTRING_TPL.replace("{SEARCH_TITLE}", title);
     }
 
@@ -74,11 +79,19 @@ abstract public class SearchPageObject extends MainPageObject {
     }
 
     public int getAmountOfFoundArticles() {
-        this.waitForElementPresent(
-                SEARCH_RESULT_ELEMENT_BY_ID,
-                "Can't find anything by request",
-                30);
-        return this.getAmountOfElements((SEARCH_RESULT_ELEMENT_BY_ID));
+        if(Platform.getInstance().isMW()){
+            this.waitForElementPresent(
+                    SEARCH_RESULT_BY_TITLE,
+                    "Can't find anything by request",
+                    30);
+            return this.getAmountOfElements((SEARCH_RESULT_BY_TITLE));
+        }else {
+            this.waitForElementPresent(
+                    SEARCH_RESULT_ELEMENT_BY_ID,
+                    "Can't find anything by request",
+                    30);
+            return this.getAmountOfElements((SEARCH_RESULT_ELEMENT_BY_ID));
+        }
     }
 
     public void waitForEmptyResultsLabel() {

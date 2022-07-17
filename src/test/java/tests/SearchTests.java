@@ -5,6 +5,8 @@ import lib.ui.SearchPageObject;
 import lib.ui.factories.SearchPageObjectFactory;
 import org.junit.Test;
 
+import static org.junit.Assert.assertNotEquals;
+
 public class SearchTests extends CoreTestCase {
 
     @Test
@@ -84,11 +86,38 @@ public class SearchTests extends CoreTestCase {
     public void testCheckValidSearch() {
         SearchPageObject searchPageObject = SearchPageObjectFactory.get(driver);
         searchPageObject.initSearchInput();
-        String searchLine = "Java";
-        searchPageObject.typeSearchLine(searchLine);
+        searchPageObject.typeSearchLine("Horse");
+        searchPageObject.getAmountOfFoundArticles();
 
         int amountOfSearchResults = searchPageObject.getAmountOfFoundArticles();
 
-        assertEquals("NOT EQUALS WITH SEARCH", 1, amountOfSearchResults);
+        assertNotEquals("NOT EQUALS WITH SEARCH", 0, amountOfSearchResults);
+
+        driver.navigate().back();
+
+        searchPageObject.clickCanselSearch();
+        searchPageObject.waitForCancelButtonToDisappear();
+
+        searchPageObject.initSearchInput();
+        searchPageObject.typeSearchLine("Java");
+        searchPageObject.getAmountOfFoundArticles();
+
+        amountOfSearchResults = searchPageObject.getAmountOfFoundArticles();
+
+        assertNotEquals("NOT EQUALS WITH SEARCH", 0, amountOfSearchResults);
+
+        driver.navigate().back();
+
+        searchPageObject.clickCanselSearch();
+        searchPageObject.waitForCancelButtonToDisappear();
+
+        searchPageObject.initSearchInput();
+        searchPageObject.typeSearchLine("GG");
+        searchPageObject.getAmountOfFoundArticles();
+
+        amountOfSearchResults = searchPageObject.getAmountOfFoundArticles();
+
+        assertNotEquals("NOT EQUALS WITH SEARCH", 0, amountOfSearchResults);
+
     }
 }
