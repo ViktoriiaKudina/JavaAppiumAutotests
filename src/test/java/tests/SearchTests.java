@@ -1,8 +1,10 @@
 package tests;
 
+import io.qameta.allure.Step;
 import lib.CoreTestCase;
 import lib.ui.SearchPageObject;
 import lib.ui.factories.SearchPageObjectFactory;
+import org.junit.Assert;
 import org.junit.Test;
 
 import static org.junit.Assert.assertNotEquals;
@@ -10,6 +12,7 @@ import static org.junit.Assert.assertNotEquals;
 public class SearchTests extends CoreTestCase {
 
     @Test
+    @Step("Start search test")
     public void testSearch() {
         SearchPageObject searchPageObject = SearchPageObjectFactory.get(driver);
         searchPageObject.initSearchInput();
@@ -18,6 +21,7 @@ public class SearchTests extends CoreTestCase {
     }
 
     @Test
+    @Step("Start test search by title and description")
     public void testSearchByTitleAndDescription() {
         SearchPageObject searchPageObject = SearchPageObjectFactory.get(driver);
         searchPageObject.initSearchInput();
@@ -28,6 +32,7 @@ public class SearchTests extends CoreTestCase {
     }
 
     @Test
+    @Step("Start test cansel search")
     public void testCancelSearch() {
 
         SearchPageObject searchPageObject = SearchPageObjectFactory.get(driver);
@@ -39,6 +44,7 @@ public class SearchTests extends CoreTestCase {
     }
 
     @Test
+    @Step("Start test amount of not empty search")
     public void testAmountOfNotEmptySearch() {
 
         SearchPageObject searchPageObject = SearchPageObjectFactory.get(driver);
@@ -48,12 +54,13 @@ public class SearchTests extends CoreTestCase {
 
         int amountOfSearchResults = searchPageObject.getAmountOfFoundArticles();
 
-        assertTrue(
+        Assert.assertTrue(
                 "We found few results",
                 amountOfSearchResults > 0);
     }
 
     @Test
+    @Step("Start test amount of empty search")
     public void testAmountOfEmptySearch() {
 
         SearchPageObject searchPageObject = SearchPageObjectFactory.get(driver);
@@ -65,6 +72,7 @@ public class SearchTests extends CoreTestCase {
     }
 
     @Test
+    @Step("Start test cancelling search")
     public void testCancelingASearch() {
         SearchPageObject searchPageObject = SearchPageObjectFactory.get(driver);
         searchPageObject.initSearchInput();
@@ -73,7 +81,7 @@ public class SearchTests extends CoreTestCase {
 
         int amountOfSearchResults = searchPageObject.getAmountOfFoundArticles();
 
-        assertTrue(
+        Assert.assertTrue(
                 "We found few results",
                 amountOfSearchResults > 0);
 
@@ -83,6 +91,7 @@ public class SearchTests extends CoreTestCase {
     }
 
     @Test
+    @Step("Start test check valid search")
     public void testCheckValidSearch() {
         SearchPageObject searchPageObject = SearchPageObjectFactory.get(driver);
         searchPageObject.initSearchInput();

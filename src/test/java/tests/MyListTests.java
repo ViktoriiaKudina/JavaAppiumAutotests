@@ -1,5 +1,7 @@
 package tests;
 
+import io.qameta.allure.Step;
+import io.qameta.allure.junit4.DisplayName;
 import lib.CoreTestCase;
 import lib.Platform;
 import lib.ui.*;
@@ -17,7 +19,8 @@ public class MyListTests extends CoreTestCase {
                                 password = "Uni&Clo_1";;
 
 
-@Test
+    @Test
+    @Step("Start test save article to my list ")
     public void testSaveArticleToMyList() {
         SearchPageObject searchPageObject = SearchPageObjectFactory.get(driver);
         searchPageObject.initSearchInput();
@@ -41,7 +44,7 @@ public class MyListTests extends CoreTestCase {
             auth.submitForm();
             articlePageObject.waitForTitleElement();
 
-            assertEquals("We are not on the same page after login",
+            Assert.assertEquals("We are not on the same page after login",
                     articleTitle,
                     articlePageObject.getArticleTitle());
 
@@ -64,6 +67,7 @@ public class MyListTests extends CoreTestCase {
     }
 
     @Test
+    @Step("Start test save articles to my list and delete one")
     public void testSaveArticlesToMyListAndDeleteOne() {
         SearchPageObject searchPageObject = SearchPageObjectFactory.get(driver);
         searchPageObject.initSearchInput();
@@ -86,7 +90,7 @@ public class MyListTests extends CoreTestCase {
             auth.submitForm();
             articlePageObject.waitForTitleElement();
 
-            assertEquals("We are not on the same page after login",
+            Assert.assertEquals("We are not on the same page after login",
                     articleTitle,
                     articlePageObject.getArticleTitle());
 

@@ -1,7 +1,9 @@
 package lib;
 
+import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.ios.IOSDriver;
+import io.appium.java_client.remote.MobileCapabilityType;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.remote.DesiredCapabilities;
@@ -30,14 +32,15 @@ public class Platform {
     }
 
 
-    public RemoteWebDriver getDriver() throws Exception{
+    public AppiumDriver getDriver() throws Exception{
         URL URL = new URL(APPIUM_URL);
         if (this.isAndroid()){
-            return new AndroidDriver(URL,this.getAndroidDesiredCapabilities());
+            return new AndroidDriver<>(URL,this.getAndroidDesiredCapabilities());
         } else if (this.isIOS()){
-            return new IOSDriver(URL,this.getIOSDesiredCapabilities());
+            return new IOSDriver<>(URL,this.getIOSDesiredCapabilities());
         } else if (this.isMW()){
-            return new ChromeDriver(this.getMWChromeOptions());
+            throw new Exception("Can't detect type of the Driver. Platform value:  " + this.getPlatformVar());
+            //return new ChromeDriver(this.getMWChromeOptions());
         }else {
             throw new Exception("Can't detect type of the Driver. Platform value:  " + this.getPlatformVar());
         }
@@ -55,14 +58,14 @@ public class Platform {
 
     private DesiredCapabilities getAndroidDesiredCapabilities(){
         DesiredCapabilities capabilities = new DesiredCapabilities();
-        capabilities.setCapability("platformName", "Android");
-        capabilities.setCapability("deviceName", "NexusTest");
-        capabilities.setCapability("platformVersion", "10");
+        capabilities.setCapability(MobileCapabilityType.PLATFORM_NAME,"Android");
+        capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "NexusTest");
+        capabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION, "10");
         capabilities.setCapability("automationName", "Appium");
         capabilities.setCapability("appPackage", "org.wikipedia");
         capabilities.setCapability("appActivity", ".main.MainActivity");
         capabilities.setCapability("app", "wikipedia");
-        capabilities.setCapability("app", "C:/Users/Work/Desktop/Tools/org.wikipedia.apk");
+        capabilities.setCapability("app", "C:\\Users\\Work\\OneDrive\\Desktop\\Tools\\org.wikipedia.apk");
         return capabilities;
     }
 
@@ -71,7 +74,7 @@ public class Platform {
         capabilities.setCapability("platformName", "IOS");
         capabilities.setCapability("deviceName", "iPhon SE");
         capabilities.setCapability("platformVersion", "11.3");
-        capabilities.setCapability("app", "C:/Users/Work/Desktop/Tools/org.wikipedia.apk");
+        capabilities.setCapability("app", "C:\\Users\\Work\\OneDrive\\Desktop\\Tools\\org.wikipedia.apk");
         return capabilities;
     }
 
@@ -85,7 +88,7 @@ public class Platform {
         mobileEmulation.put("deviceMetrics",deviceMetrics);
         mobileEmulation.put("userAgent","Mozilla/5.0 (Linux; Android 8.0.0;" +
                         "Nexus 5 Build/JOP40D) AppleWebKit/537.36 (KHTML,like Gecko) " +
-        "Chrome/67.0.3396.99 Mobile Safari/537.36");
+        "Chrome/105.0.5195.102 Mobile Safari/537.36");
 
         ChromeOptions chromeOptions = new ChromeOptions();
         chromeOptions.setExperimentalOption("mobileEmulation", mobileEmulation);

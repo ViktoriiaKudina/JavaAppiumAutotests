@@ -2,6 +2,8 @@ package lib.ui;
 
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.TouchAction;
+import io.appium.java_client.touch.WaitOptions;
+import io.appium.java_client.touch.offset.PointOption;
 import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
@@ -12,6 +14,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import lib.Platform;
 
+import java.time.Duration;
 import java.util.List;
 import java.util.regex.Pattern;
 
@@ -96,7 +99,7 @@ public class MainPageObject {
             int pointToClickY = middleY;
 
             TouchAction action = new TouchAction((AppiumDriver) driver);
-            action.tap(pointToClickX, pointToClickY).perform();
+            action.tap(PointOption.point(pointToClickX, pointToClickY)).perform();
         } else {
             System.out.println("Method clickElementToTheRightUpperCorner() does nothing for platform" + Platform.getInstance().getPlatformVar());
         }
@@ -110,9 +113,9 @@ public class MainPageObject {
             int startY = (int) (size.height * 0.8);
             int endY = (int) (size.height * 0.2);
             action
-                    .press(x, startY)
-                    .waitAction(timeOfSwipe)
-                    .moveTo(x, endY)
+                    .press(PointOption.point(x, startY))
+                    .waitAction(WaitOptions.waitOptions(Duration.ofMillis(timeOfSwipe)))
+                    .moveTo(PointOption.point(x, endY))
                     .release()
                     .perform();
         } else {
@@ -195,14 +198,14 @@ public class MainPageObject {
             int middleY = (upperY + lowerY) / 2;
 
             TouchAction action = new TouchAction((AppiumDriver) driver);
-            action.press(rightX, middleY);
-            action.waitAction(500);
+            action.press(PointOption.point(rightX, middleY));
+            action.waitAction(WaitOptions.waitOptions(Duration.ofMillis(500)));
 
             if (Platform.getInstance().isAndroid()) {
-                action.moveTo(leftX, middleY);
+                action.moveTo(PointOption.point(leftX, middleY));
             } else {
                 int offSetX = (-1 * element.getSize().getWidth());
-                action.moveTo(offSetX, 0);
+                action.moveTo(PointOption.point(offSetX, 0));
             }
             action.release();
             action.perform();

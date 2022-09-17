@@ -1,16 +1,19 @@
 package tests;
 
+import io.qameta.allure.Step;
 import lib.CoreTestCase;
 import lib.Platform;
 import lib.ui.ArticlePageObject;
 import lib.ui.SearchPageObject;
 import lib.ui.factories.ArticlePageObjectFactory;
 import lib.ui.factories.SearchPageObjectFactory;
+import org.junit.Assert;
 import org.junit.Test;
 
 public class ChangeAppConditionTests extends CoreTestCase {
 
     @Test
+    @Step("Start test change screen orientation on search result")
     public void testChangeScreeOrientationOnSearchResult() {
 
         if (Platform.getInstance().isMW()){
@@ -22,7 +25,7 @@ public class ChangeAppConditionTests extends CoreTestCase {
         this.rotateScreenLandscape();
         String titleAfterRotation = articlePageObject.getArticleTitle();
 
-        assertEquals(
+        Assert.assertEquals(
                 "Article title has been changed after screen rotation",
                 titleBeforeRotation,
                 titleAfterRotation);
@@ -30,13 +33,14 @@ public class ChangeAppConditionTests extends CoreTestCase {
         this.rotateScreenPortrait();
         String titleAfterSecondRotation = articlePageObject.getArticleTitle();
 
-        assertEquals(
+        Assert.assertEquals(
                 "Article title has been changed after screen rotation",
                 titleBeforeRotation,
                 titleAfterSecondRotation);
     }
 
     @Test
+    @Step("Start test check search article in background")
     public void testCheckSearchArticleInBackground() {
 
         if (Platform.getInstance().isMW()) {
